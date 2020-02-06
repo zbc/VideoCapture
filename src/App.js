@@ -1,25 +1,32 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useEffect } from 'react';
 import './App.css';
 
 function App() {
+  useEffect(() => {
+  }, [])
+  function handleClick() {
+    const constraints = {
+      video: true,
+      audio: false
+    };
+    navigator.mediaDevices
+      .getUserMedia(constraints)
+      .then(stream => {
+        console.log(stream)
+        const video = document.querySelector('video');
+        console.log(video)
+        video.srcObject = stream;
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <video id="video" autoPlay>
+      </video>
+      <button onClick={handleClick}>Click</button>
+    </>
   );
 }
 
